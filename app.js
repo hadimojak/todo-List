@@ -3,13 +3,11 @@ const addTodo = document.querySelector('form.add');
 const todoList = document.querySelector('ul');
 let todoItems = document.querySelectorAll('li');
 let todoItemsArray = [];
-
-const addTheItems = (Li) => {
-    todoList.insertAdjacentElement('afterbegin', Li);
-};
-todoItems.forEach((p) => { // for addding items to list of items
+// for addding items to list of items
+todoItems.forEach((p) => { 
     todoItemsArray.push(p.querySelector('span').innerText);
 });
+//search the term
 searchTodo.addEventListener('keyup', (e) => {
     e.preventDefault(true);
     if (e.target.tagName === 'INPUT') {
@@ -22,20 +20,19 @@ searchTodo.addEventListener('keyup', (e) => {
         todoList.innerHTML = '';
         todoItems.forEach(p => {
             if (findedOn.includes(p.querySelector('span').innerText)) {
-                addTheItems(p);
+                todoList.insertAdjacentElement('afterbegin', p);
             }
         });
     }
 });
-
+//add todo
 addTodo.addEventListener('submit', (e) => {
     e.preventDefault(true);
     const todoName = addTodo.querySelector('input');
     // const todoName = addTodo.add.value;
-    console.log(addTodo.add.value);
     const todoEl = document.createElement('li');
     todoEl.className = "list-group-item d-flex justify-content-between aligh-items-center";
-    todoEl.innerHTML = `<span>${todoName.value}</span>
+    todoEl.innerHTML = `<span>${todoName.value.trim()}</span>
                         <i class="far fa-trash-alt delete"></i>`;
     if (todoName.value === '') { return; } else {
         todoItemsArray.push(todoName.value);
@@ -43,10 +40,8 @@ addTodo.addEventListener('submit', (e) => {
         todoItems = document.querySelectorAll('li');
         todoName.value = '';
     }
-
 });
-
-//remove handler
+//remove todo handler
 todoList.addEventListener('click', (e) => {
     if (e.target.tagName === 'I') {
         const mustToRemove = e.target.parentElement.querySelector('span').innerText;
